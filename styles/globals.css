@@ -1,16 +1,69 @@
-html,
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+  .icon {
+    @apply hidden xl:flex h-5  md:h-9 p-2  bg-gray-300 rounded-lg rounded-full cursor-pointer
+  }
+
+  .btn-submit {
+    @apply bg-blue-300 text-white rounded-lg  text-base md:text-lg font-semibold cursor-pointer py-1 self-end  px-5 md:px-10
+  }
+
+  .btn-submit.disabled {
+    @apply bg-gray-500 cursor-not-allowed
+  }
+}
+
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --header-height: 70px;
+  height: 100vh;
+  width: 100%;
+  -ms-overflow-style: none;
+  scrollbar-width: none;  
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+body > *, .window-heightened {
+  max-height: 100%;
 }
 
-* {
-  box-sizing: border-box;
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.transition-normalized {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.transition-normalized *{
+  -webkit-backface-visibility: inherit;
+  backface-visibility: inherit;
+}
+
+.header {
+  height: var(--header-height);
+}
+
+.main, .main-heightened {
+  max-height: calc(100vh - var(--header-height)) !important;
+}
+
+.poster {
+  display: none !important;
+}
+
+.img_section, .img_section > picture {
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.invisible {
+  opacity: 0;
+}
+
+.visible {
+  opacity: 100%;
 }

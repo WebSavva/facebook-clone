@@ -6,15 +6,29 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db-open": "sqlite3"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.3",
+    "cloudinary": "^1.26.3",
+    "hash.js": "^1.1.7",
+    "multer": "^1.4.3",
     "next": "11.0.1",
+    "next-auth": "^3.27.3",
+    "next-connect": "^0.10.2",
+    "object-hash": "^2.2.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "reactjs-media": "^1.5.1",
+    "sqlite3": "^5.0.2",
+    "tailwind-scrollbar-hide": "^1.0.3"
   },
   "devDependencies": {
+    "autoprefixer": "^10.3.1",
     "eslint": "7.32.0",
-    "eslint-config-next": "11.0.1"
+    "eslint-config-next": "11.0.1",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.7"
   }
 }
