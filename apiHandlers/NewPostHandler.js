@@ -1,14 +1,14 @@
 import serverConfig from "./../database/server_config.json";
 import fs from "fs";
 import path from "path";
-import cloudinary from "./../database/cloudinary";
+import cloudinary from "./../database/cloudinary.js";
 import sha1 from "hash.js/lib/hash/sha/1";
-import DBInterface from "./../database/DBInterface";
+import DBInterface from "./../database/DBInterface.js";
 import {
   NoDataError,
   FileUploadError,
   StorageLimitError,
-} from "./custom-errors";
+} from "./custom-errors.js";
 
 class NewPostHandler {
   constructor() {

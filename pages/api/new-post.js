@@ -1,6 +1,6 @@
 import nextConnect from "next-connect";
 import multer from "multer";
-import { newPostHandler } from "./../../apiHandlers/newPostHandler";
+import { newPostHandler } from "./../../apiHandlers/NewPostHandler.js";
 import serverConfig from './../../database/server_config.json';
 
 const upload = multer({
