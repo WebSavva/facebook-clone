@@ -1,5 +1,6 @@
 const { async } = require("regenerator-runtime");
 const fs = require("fs");
+const path = require('path');
 const {
   queries,
   dbPath: DB_PATH,
@@ -25,7 +26,7 @@ function databasePromisifyGenerator(db, queriesObject) {
 
 class FbDatabaseInterface {
   static async initializeDB() {
-    let db = new sqlite3.Database(DB_PATH);
+    let db = new sqlite3.Database(path.resolve(__dirname,DB_PATH));
     try {
       let initializedUsers = await new Promise((res, rej) => {
         db.run(
@@ -59,7 +60,7 @@ class FbDatabaseInterface {
    
   }
   constructor() {
-    this.db = new sqlite3.Database(DB_PATH);
+    this.db = new sqlite3.Database(path.resolve(__dirname,DB_PATH));
 
     const dbPromisifyGenerator = databasePromisifyGenerator(this.db, queries);
 
