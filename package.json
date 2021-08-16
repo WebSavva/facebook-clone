@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "db-open": "sqlite3"
+    "start": "next start -p $PORT"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.3",
