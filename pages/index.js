@@ -74,8 +74,8 @@ export async function getServerSideProps(ctx) {
 
     if (!doesUserExist) await db.createNewUser(emailHash)
 
-  } catch {
-
+  } catch (err) {
+    console.log(err.message);
   } finally {
     db.shutDown();
   }
