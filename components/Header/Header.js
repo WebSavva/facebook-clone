@@ -6,18 +6,18 @@ import {
   BellIcon,
   ViewGridIcon,
   ChevronDownIcon,
-  LogoutIcon
+  LogoutIcon,
+  UserGroupIcon
 } from "@heroicons/react/solid";
 import {
-  FlagIcon,
-  PlayIcon,
-  ShoppingCartIcon,
   ChatIcon,
+  GlobeIcon
 } from "@heroicons/react/outline";
 import HeaderIcon from "./HeaderIcon";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import UserImage from "../UserImage/UserImage";
+import Link from 'next/link';
 
 export default function Header() {
   const [
@@ -47,9 +47,8 @@ export default function Header() {
       {/* CENTER */}
       <div className="flex md-2 md:gap-5">
         <HeaderIcon Icon={HomeIcon} active />
-        <HeaderIcon Icon={FlagIcon} />
-        <HeaderIcon Icon={ShoppingCartIcon} />
-        <HeaderIcon Icon={PlayIcon} />
+        <HeaderIcon Icon={GlobeIcon} />
+        <HeaderIcon Icon={UserGroupIcon}/>
         <HeaderIcon Icon={LogoutIcon} onClickHandler={redirectToSignOutPage}/>
       </div>
 

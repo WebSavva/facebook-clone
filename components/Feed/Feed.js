@@ -1,38 +1,52 @@
 import Stories from "../Stories/Stories";
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-} from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import NewPost from "../NewPost/NewPost";
-import useLoadPosts from "../../hooks/useLoadPosts";
+import useContentLoader from "../../hooks/useContentLoader";
 import PostList from "./../Posts/PostList";
+import { useSession } from "next-auth/client";
 
-
-export default function Feed({ userHash }) {
+export default function Feed() {
+  const [
+    {
+      user: { userId },
+    },
+  ] = useSession();
   const [userPosts, setUserPosts] = useState([]);
   const {
     startLoadingOnPageEnd,
     isLoading: isFetchingPosts,
-    isDone: isAllPostsLoaded
+    isDone: isAllPostsLoaded,
+  } = useContentLoader({
+    onFetchHandler: (result) =>
+      setUserPosts((prevUserPosts) => prevUserPosts.concat(result)),
+    urlTemplate: "api/posts?last_post_date=%&post_owner=%&limit=%",
+    idFieldName: "publishedDate",
+    urlParamsMap: {
+      id: {
+        last_post_date: "3000-01-01",
+      },
+      bindingField: {
+        post_owner: userId,
+      },
+      otherParams: {
+        limit: 5,
+      },
+    },
+  });
 
-  } = useLoadPosts((rows) => setUserPosts((prevUserPosts) => prevUserPosts.concat(rows)), userHash);
-  
   const feedRef = useRef(null);
 
   const addNewUserPostHandler = useCallback((postObject) => {
     setUserPosts((prevPosts) => [postObject, ...prevPosts]);
-  },[]);
-
- 
+  }, []);
 
   useEffect(() => {
     feedRef.current.onscroll = function (e) {
       if (
-        (feedRef.current.scrollHeight - feedRef.current.scrollTop <
-        feedRef.current.offsetHeight + 200) && !isAllPostsLoaded
+        feedRef.current.scrollHeight - feedRef.current.scrollTop <
+          feedRef.current.offsetHeight + 300 &&
+        !isAllPostsLoaded
       ) {
         startLoadingOnPageEnd();
       }

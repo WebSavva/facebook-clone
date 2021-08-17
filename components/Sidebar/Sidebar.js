@@ -1,10 +1,9 @@
 import SidebarRow from "./SidebarRow";
 import {
-  UserGroupIcon,
-  LibraryIcon,
   UsersIcon,
-  BookmarkIcon,
+  GlobeAltIcon,
   ChevronDownIcon,
+  HomeIcon
 } from "@heroicons/react/solid";
 import { useSession } from "next-auth/client";
 
@@ -14,10 +13,9 @@ export default function Sidebar(){
   return (
     <ul className="hidden sm:flex flex-col gap-5 px-3 w-max ">
       <SidebarRow title={session.user.name} isUserRow />
+      <SidebarRow title='Home' Icon={HomeIcon}/>
       <SidebarRow title='Search Friends' Icon={UsersIcon}/>
-      <SidebarRow title='Marketplace' Icon={LibraryIcon}/>
-      <SidebarRow title='Groups' Icon={UserGroupIcon}/>
-      <SidebarRow title='Save' Icon={BookmarkIcon}/>
+      <SidebarRow title='Explore' Icon={GlobeAltIcon}/>
       <SidebarRow title='Other' Icon={ChevronDownIcon}/>
     </ul>
   );

@@ -1,22 +1,4 @@
 {
-  "queries": {
-    "INSERT_USER_QUERY": "INSERT INTO Users(email, last_seen) VALUES( ?, julianday('now') )",
-    "SELECT_POST_QUERY": "SELECT post_id as id, post_owner AS postOwner, datetime(published_date) AS publishedDate, file_url AS fileUrl, media_type AS mediaType, post_text AS postText FROM Posts WHERE post_id = ?",
-    "SELECT_ALL_POSTS_QUERY": "SELECT * FROM Posts",
-    "CHECK_USER_EXISTENCE_QUERY": "SELECT EXISTS(SELECT 1 FROM Users WHERE email = ?)",
-    "INSERT_POST_WITH_FILE_QUERY": "INSERT INTO Posts(post_owner, published_date, file_url, file_size, media_type) VALUES(?, julianday('now'), ?, ?, ?)",
-    "INSERT_FULL_POST_QUERY": "INSERT INTO Posts(post_owner, post_text, published_date, file_url, file_size, media_type) VALUES(?, ?, julianday('now'), ?, ?, ?)",
-    "INSERT_POST_WITHOUT_FILE_QUERY": "INSERT INTO Posts(post_owner, post_text, published_date) VALUES(?, ?, julianday('now'))",
-    "SELECT_ALL_USERS_QUERY": "SELECT email, date(last_seen) as lastSeen FROM Users",
-    "SELECT_ALL_POSTS_BY_USER_QUERY": "SELECT * FROM Posts WHERE post_owner = ?",
-    "CALCULATE_ALL_USER_POSTS": "SELECT COUNT(*) FROM Posts WHERE post_owner = ?",
-    "SELECT_MULTIPLE_USER_POSTS": "SELECT post_id as id, post_text as postText, datetime(published_date) AS publishedDate, file_url AS fileUrl, media_type AS mediaType FROM Posts WHERE post_id < ? AND post_owner = ? ORDER BY published_date DESC LIMIT 5",
-    "COUNT_USER_STORAGE_QUERY": "SELECT SUM(file_size) WHERE post_owner = ?",
-    "DELETE_USER_QUERY": "DELET FROM Users WHERE email = ?",
-    "SELECT_USER_FILE_URLS_QUERY": "SELECT file_url AS fileUrl FROM Posts WHERE post_owner = ? AND file_url IS NOT NULL",
-    "CREATE_USERS_TABLE": "CREATE TABLE Users(email TEXT NOT NULL PRIMARY KEY, last_seen REAL NOT NULL )",
-    "CREATE_POSTS_TABLE": "CREATE TABLE Posts(post_id INTEGER NOT NULL PRIMARY KEY, post_text TEXT, published_date REAL NOT NULL, file_url TEXT, file_size INTEGER, media_type TEXT, post_owner TEXT,FOREIGN KEY (post_owner) REFERENCES Users (email) ON DELETE CASCADE ON UPDATE NO ACTION)"
-  },
   "dbPath": "fbclone.db",
   "mediaPath": "./uploaded-files",
   "cloudFolderName": "fbclone-media-posts",
@@ -27,7 +9,7 @@
   },
   "maxUserStorageSize": 50e6,
   "paramNames": {
-    "lastPostId": "last_post_id",
+    "lastPostDate": "last_post_date",
     "postOwner": "post_owner"
   }
 }

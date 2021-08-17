@@ -23,7 +23,7 @@ class NewPostHandler {
       let newPostData = {};
       newPostData = this.attachPostOwner(newPostData, userEmail);
 
-      db = new DBInterface();
+      db = await DBInterface.getDB();
 
       if (req.file || text) {
         newPostData = this.attachText(newPostData, text);
@@ -50,7 +50,7 @@ class NewPostHandler {
       });
     } finally {
       this.clearOutUploadDirectory();
-      if (db) db.shutDown();
+      if (db) db.close();
     }
   }
 
@@ -74,9 +74,9 @@ class NewPostHandler {
     let generatedFileUrl = [];
     if (file) {
       //checking size of the file
-      const currentUserStorageSize = await db._calculateUserStorageSize([
-        newPostDataWithFile.postOwner,
-      ]);
+      const currentUserStorageSize = await db._calculateUserStorageSize(
+        newPostDataWithFile.postOwner
+      );
 
       if (currentUserStorageSize + file.size > serverConfig.maxUserStorageSize)
         throw new StorageLimitError();
@@ -89,7 +89,9 @@ class NewPostHandler {
           file.path.replace(/\\/, "/"),
           {
             public_id: `${serverConfig.cloudFolderName}/${sha1()
-              .update(file.filename + Date.now() + newPostDataWithFile.postOwner)
+              .update(
+                file.filename + Date.now() + newPostDataWithFile.postOwner
+              )
               .digest("hex")}`,
 
             resource_type:

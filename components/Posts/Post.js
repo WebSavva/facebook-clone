@@ -48,11 +48,11 @@ const Post = ({ fileUrl, mediaType, postText, publishedDate }) => {
   }
 
   let publishedDay = new Date(
-    publishedDate.match(/\d{4}-\d{2}-\d{2}/)[0]
+   publishedDate
   ).toLocaleDateString("en-US", {
     dateStyle: "medium",
   });
-  let publishedMoment = publishedDate.match(/\d\d:\d\d/)[0];
+  let publishedMoment = null;
 
   return (
     <div className="flex flex-col gap-2 bg-white rounded-md shadow-sm p-5">

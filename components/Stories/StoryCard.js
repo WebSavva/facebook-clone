@@ -37,7 +37,7 @@ export default function StoryCard(props) {
       <p
         className={`text-xs ${currentOpacity} text-center z-20 text-white absolute bottom-3 transition-all w-full font-semibold hidden md:block`}
       >
-        User Name 1
+        Story {props.id + 1}
       </p>
     </div>
   );
