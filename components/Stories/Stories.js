@@ -2,14 +2,14 @@ import { memo, useMemo } from "react";
 import StoryCard from "./StoryCard";
 
 function Stories() {
-    const categories = useMemo(() => {
-        return ['office', 'code', 'festival', 'shop', 'smile']
+    const collections = useMemo(() => {
+        return ['235549', '4773283', '362271', '209138', '2411320']
     }, [])
     const storyCards = Array.from({length: 5}, (el, i) => {
-        return <StoryCard key={i} id={i} src={`https://source.unsplash.com/random/1500x1500?${categories[i]}`}/>
+        return <StoryCard key={i} id={i} src={`https://source.unsplash.com/collection/${collections[i]}/`}/>
     })
     return (
-        <div className='flex gap-1 md:gap-3 items-center justify-around sm:justify-between'>
+        <div className=' gap-1 hidden sm:flex md:gap-3 items-center justify-around sm:justify-between'>
             {storyCards}
         </div>
     )

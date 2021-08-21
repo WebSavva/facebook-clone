@@ -17,6 +17,7 @@ import HeaderIcon from "./HeaderIcon";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import UserImage from "../UserImage/UserImage";
+import NavLink from "../NavLink/NavLink";
 import Link from 'next/link';
 
 export default function Header() {
@@ -46,14 +47,24 @@ export default function Header() {
 
       {/* CENTER */}
       <div className="flex md-2 md:gap-5">
-        <HeaderIcon Icon={HomeIcon} active />
+      <NavLink href='/' className='header-link'>
+        <HeaderIcon Icon={HomeIcon}/>
+      </NavLink>
+      <NavLink href='/explore' className='header-link'>
         <HeaderIcon Icon={GlobeIcon} />
+      </NavLink>
+      <NavLink href='/search' className='header-link'>
         <HeaderIcon Icon={UserGroupIcon}/>
-        <HeaderIcon Icon={LogoutIcon} onClickHandler={redirectToSignOutPage}/>
+      </NavLink>
+      <button onClick={redirectToSignOutPage} className='header-link'>
+        <HeaderIcon Icon={LogoutIcon} />
+      </button>
       </div>
 
       {/* RIGHT */}
       <div className="flex items-center justify-end gap-2">
+      <Link href='/'>
+        <a className='flex items-center gap-2'>
         <UserImage className='rounded-full h-[35px] w-[35px]'/>
         <span className="font-semibold  sm:gap-2 hidden sm:flex sm:text-sm lg:text-base ">
           <span>{userFirstName}</span>
@@ -61,6 +72,9 @@ export default function Header() {
             {!(userLastName.length > 20) && userLastName}
           </span>
         </span>
+        </a>
+      </Link>
+        
         <ViewGridIcon className="icon" />
         <ChatIcon className="icon" />
         <BellIcon className="icon" />

@@ -1,5 +1,5 @@
 {
-    "maxFileSize": 10e6,
+    "maxFileSize": 20e6,
     "allowedExtensions": {
         "video": ["mp4","webm",  "x-msvideo" ],
         "audio": [ "mpeg", "mp4", "wav", "aac"],

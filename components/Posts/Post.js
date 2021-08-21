@@ -3,26 +3,28 @@ import { ThumbUpIcon, ShareIcon, ChatAltIcon } from "@heroicons/react/solid";
 import PostButton from "./PostButton";
 import { ReactVideo, ReactAudio, Image as MediaImage } from "reactjs-media";
 import Spinner from "./../UI/Spinner/Spinner";
-import audioImage from "./../../public/audio_default.jpg";
 import UserImage from "../UserImage/UserImage";
+import convertDate from "./../../utilities/date-converter";
+import Link from "next/link";
+import Lightbox from "../UI/Lightbox/Lightbox";
 
-const Post = ({ fileUrl, mediaType, postText, publishedDate }) => {
-  const [
-    {
-      user: { image: userImage, name: userName },
-    },
-  ] = useSession();
-
+const Post = ({
+  fileUrl,
+  postOwner,
+  mediaType,
+  postText,
+  publishedDate,
+  postOwnerAvatarUrl,
+  postOwnerName,
+}) => {
   let mediaContent;
   if (fileUrl) {
     switch (mediaType) {
       case "image":
         mediaContent = (
-          <MediaImage
-            src={fileUrl}
-            className="w-full h-[150px] sm:h-[200px] md:h-[250px] lg:h-[300px]"
-            alt="Post Image"
-          />
+          <Lightbox>
+            <MediaImage src={fileUrl} className="w-full" alt="Post Image" />
+          </Lightbox>
         );
         break;
       case "video":
@@ -34,12 +36,7 @@ const Post = ({ fileUrl, mediaType, postText, publishedDate }) => {
         );
         break;
       case "audio":
-        mediaContent = (
-          <ReactAudio
-            src={fileUrl}
-            className="w-full h-[90px]"
-          />
-        );
+        mediaContent = <ReactAudio src={fileUrl} className="w-full h-[90px]" />;
         break;
 
       default:
@@ -47,25 +44,31 @@ const Post = ({ fileUrl, mediaType, postText, publishedDate }) => {
     }
   }
 
-  let publishedDay = new Date(
-   publishedDate
-  ).toLocaleDateString("en-US", {
-    dateStyle: "medium",
-  });
-  let publishedMoment = null;
+  const convertedPublishedDate = convertDate(publishedDate);
 
   return (
-    <div className="flex flex-col gap-2 bg-white rounded-md shadow-sm p-5">
-      <header className="flex gap-3">
-        <UserImage className='h-[40px] w-[40px] sm:h-[50px] sm:w-[50px]'/>
-        <div className="flex flex-col">
-          <span className="text-sm md:text-md font-semibold">{userName}</span>
-          <p className="text-xs sm:text-sm text-gray-400 font-normal">
-            <span>{publishedDay}</span>
-            <span className="ml-2 text-gray-300 hidden sm:inline-block">{publishedMoment}</span>
-          </p>
-        </div>
-      </header>
+    <div className="flex flex-col gap-2 bg-white rounded-md shadow-sm p-5 animate-saturate">
+      <Link href={`${window.location.origin}/users/${postOwner}`}>
+        <a className="self-start cursor-pointer">
+          <header className="flex gap-3">
+            <UserImage
+              className="h-[40px] w-[40px] sm:h-[50px] sm:w-[50px]"
+              imgSrc={postOwnerAvatarUrl}
+            />
+            <div className="flex flex-col">
+              <span className="text-sm md:text-md font-semibold">
+                {postOwnerName}
+              </span>
+              <p className="text-xs sm:text-sm text-gray-400 font-normal">
+                <span>{convertedPublishedDate.date}</span>
+                <span className="ml-2 text-gray-300 hidden sm:inline-block">
+                  {convertedPublishedDate.moment}
+                </span>
+              </p>
+            </div>
+          </header>
+        </a>
+      </Link>
       <p className="text-sm sm:text-sm md:text-base">{postText}</p>
       {mediaContent}
       <div className="flex gap-1 justify-between">

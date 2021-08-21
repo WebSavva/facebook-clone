@@ -1,17 +1,47 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const cloudinary = require("./../database/cloudinary").default;
 const { FileUploadError } = require("./../apiHandlers/custom-errors");
 const serverConfig = require("./server_config.json");
 
-const link = `mongodb+srv://WebSavva:Z0Gn2XbqhDCNZOgW@users.fzsdz.mongodb.net/facebook-clone?retryWrites=true&w=majority`;
 
 class DBInterface {
   static async getDB(dbConnectionUrl) {
-    const dbClient = await MongoClient.connect(link);
+    const dbClient = await MongoClient.connect(process.env.DB_LINK);
 
     const db = dbClient.db();
     return new this(dbClient, db);
   }
+  static usersPostsJoinPipeline = [
+    {
+      $lookup: {
+        from: "users-info",
+        localField: "postOwner",
+        foreignField: "userId",
+        as: "User",
+      },
+    },
+    {
+      $unwind: "$User",
+    },
+    {
+      $addFields: {
+        postOwnerName: "$User.userName",
+        postOwnerAvatarUrl: "$User.avatarUrl",
+      },
+    },
+    {
+      $project: {
+        postOwnerName: 1,
+        postOwner: 1,
+        _id: 1,
+        publishedDate: 1,
+        fileUrl: 1,
+        mediaType: 1,
+        postOwnerAvatarUrl: 1,
+        postText: 1,
+      },
+    },
+  ];
 
   constructor(client, dbConnection) {
     this.client = client;
@@ -40,22 +70,52 @@ class DBInterface {
       ...newUserObject,
     });
   }
-  async updateLastSeen(userId) {
-    return await this.usersInfo.updateOne(
-      { userId },
+
+  async toggleOnlineStatus({
+    userId,
+    online
+  }) {
+    const booleanIsOnline = online == 'true' ? true : false;
+    return !!((await this.usersInfo.updateOne(
       {
-        $set: { lastSeen: new Date() },
+        userId,
+      },
+      {
+        $set: {
+          isOnline: booleanIsOnline,
+          ...(!booleanIsOnline && {
+            lastSeen: new Date(),
+          }),
+        },
       }
-    );
+    )).modifiedCount);
   }
 
-  async getUserData(id) {
+  async getUserData({ userId }) {
     return await this.usersInfo.findOne({
-      userId: id,
+      userId: userId,
     });
   }
 
-  async _calculateUserStorageSize(userId) {
+  async getUsersData({ selfId, enteredName, online: isOnline }) {
+    return await this.usersInfo
+      .find({
+        userId: {
+          $ne: selfId,
+        },
+        ...(isOnline && {
+          isOnline: {
+            $eq: !!isOnline,
+          },
+        }),
+        ...(enteredName && {
+          userName: { $regex: enteredName, $options: "i" },
+        }),
+      })
+      .toArray();
+  }
+
+  async _calculateUserStorageSize({ userId }) {
     return await this.userPosts
       .aggregate([
         {
@@ -73,9 +133,8 @@ class DBInterface {
       ])
       .toArray();
   }
+
   async getCloudAvatarUrl(rawAvatarUrl, avatarId) {
-    console.log("Cloud");
-    console.log(cloudinary);
     return await new Promise((res, rej) =>
       cloudinary.uploader.upload(
         rawAvatarUrl,
@@ -110,8 +169,8 @@ class DBInterface {
     );
   }
 
-  async createNewUser(newUserObject) {
-    let currentUser = await this.getUserData(newUserObject.userId);
+  async handleUserEnter(newUserObject) {
+    let currentUser = await this.getUserData({ userId: newUserObject.userId });
     if (!currentUser) {
       await this._insertNewUser(newUserObject);
       currentUser = await this.usersInfo.findOne({
@@ -126,39 +185,60 @@ class DBInterface {
         });
       }
     }
+
     return currentUser;
   }
 
-  async getPosts({ upperDate, postOwner, limitValue = 5 }) {
+  async getPostById(id) {
     return await this.userPosts
-      .find({
-        publishedDate: {
-          $lt: upperDate,
-        },
-        ...(postOwner && {
-          postOwner: postOwner,
-        }),
-      })
-      .limit(limitValue)
-      .sort({ publishedDate: -1 })
-      .toArray();
-  }
-
-  async getRandomUsers(size, selfId) {
-    return await this.usersInfo
       .aggregate([
-        { $sample: { size } },
         {
           $match: {
-            userId: {
-              $ne: selfId,
+            _id: {
+              $eq: id,
             },
           },
         },
+        ...DBInterface.usersPostsJoinPipeline,
       ])
       .toArray();
   }
 
+  async getPosts({ lastPostId, postOwner, limit }) {
+    let convertedLimit = limit ? +limit : 5;
+    if (!postOwner) {
+      let queries = [...DBInterface.usersPostsJoinPipeline];
+      if (lastPostId) {
+        queries = [
+          {
+            $match: {
+              _id: { $lt: ObjectId(lastPostId) },
+            },
+          },
+          ...queries,
+        ];
+      }
+      return await this.userPosts
+        .aggregate(queries)
+        .sort({ publishedDate: -1 })
+        .limit(convertedLimit)
+        .toArray();
+    }
+
+    return await this.userPosts
+      .find({
+        ...(lastPostId && {
+          _id: {
+            $lt: ObjectId(lastPostId),
+          },
+        }),
+
+        postOwner: postOwner,
+      })
+      .sort({ publishedDate: -1 })
+      .limit(convertedLimit)
+      .toArray();
+  }
   async createNewPost(newPostData) {
     const templateNewPostData = {
       postText: null,

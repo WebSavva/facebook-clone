@@ -11,12 +11,11 @@ export default function Sidebar(){
   const [session] = useSession();
     
   return (
-    <ul className="hidden sm:flex flex-col gap-5 px-3 w-max ">
-      <SidebarRow title={session.user.name} isUserRow />
-      <SidebarRow title='Home' Icon={HomeIcon}/>
-      <SidebarRow title='Search Friends' Icon={UsersIcon}/>
-      <SidebarRow title='Explore' Icon={GlobeAltIcon}/>
-      <SidebarRow title='Other' Icon={ChevronDownIcon}/>
+    <ul className="hidden lg:flex flex-col gap-5 px-3 w-max ">
+      <SidebarRow title={session.user.name} isUserRow href='/'/>
+      <SidebarRow title='Home' Icon={HomeIcon} href='/'/>
+      <SidebarRow title='Search Friends' Icon={UsersIcon} href='/search'/>
+      <SidebarRow title='Explore' Icon={GlobeAltIcon} href='/explore'/>
     </ul>
   );
 };

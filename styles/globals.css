@@ -2,18 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer components {
   .icon {
-    @apply hidden xl:flex h-5  md:h-9 p-2  bg-gray-300 rounded-lg rounded-full cursor-pointer
+    @apply hidden xl:flex h-5  md:h-9 p-2  bg-gray-300 rounded-lg rounded-full cursor-pointer;
   }
 
   .btn-submit {
-    @apply bg-blue-300 text-white rounded-lg  text-base md:text-lg font-semibold cursor-pointer py-1 self-end  px-5 md:px-10
+    @apply bg-blue-300 text-white rounded-lg  text-base md:text-lg font-semibold cursor-pointer py-1 self-end  px-5 md:px-10;
   }
 
   .btn-submit.disabled {
-    @apply bg-gray-500 cursor-not-allowed
+    @apply bg-gray-500 cursor-not-allowed;
+  }
+
+  .feed-block {
+    @apply py-5 flex flex-col overflow-y-auto scrollbar-hide  gap-8 flex-grow p-3  lg:max-w-[600px];
+  }
+
+  .header-link {
+    @apply cursor-pointer p-[5px] md:p-2 rounded-xl  transition-all  text-gray-500 md:hover:text-blue-700 md:hover:bg-gray-300;
+  }
+
+  .header-link.active {
+    @apply bg-gray-300 text-blue-700;
+  }
+
+  .online-checkbox {
+    @apply select-none ;
+  }
+
+  .online-checkbox input {
+    @apply hidden;
+  }
+
+  .online-checkbox label {
+    @apply text-xs sm:text-sm md:text-base text-gray-400 font-semibold relative flex items-center gap-1;
+  }
+
+  .online-checkbox label::before {
+    content: "";
+    @apply rounded-full w-[10px] h-[10px] sm:w-[20px] sm:h-[20px] bg-transparent border border-gray-500 transition-all;
+  }
+
+  .online-checkbox input:checked + label::before {
+    @apply bg-green-400 border-green-500;
   }
 }
 
@@ -22,11 +54,7 @@ body {
   height: 100vh;
   width: 100%;
   -ms-overflow-style: none;
-  scrollbar-width: none;  
-}
-
-body > *, .window-heightened {
-  max-height: 100%;
+  scrollbar-width: none;
 }
 
 body::-webkit-scrollbar {
@@ -38,7 +66,7 @@ body::-webkit-scrollbar {
   backface-visibility: hidden;
 }
 
-.transition-normalized *{
+.transition-normalized * {
   -webkit-backface-visibility: inherit;
   backface-visibility: inherit;
 }
@@ -47,17 +75,21 @@ body::-webkit-scrollbar {
   height: var(--header-height);
 }
 
-.main, .main-heightened {
-  max-height: calc(100vh - var(--header-height)) !important;
+.main,
+.main-heightened,
+#__next {
+  height: calc(100vh - var(--header-height)) !important;
 }
 
 .poster {
   display: none !important;
 }
 
-.img_section, .img_section > picture {
+.user-image .img_section,
+.user-image .img_section > picture {
   margin: 0 !important;
   width: 100% !important;
+  height: 100% !important;
 }
 
 .invisible {
@@ -67,3 +99,4 @@ body::-webkit-scrollbar {
 .visible {
   opacity: 100%;
 }
+

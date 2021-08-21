@@ -9,7 +9,7 @@
   },
   "maxUserStorageSize": 50e6,
   "paramNames": {
-    "lastPostDate": "last_post_date",
+    "lastPostId": "last_post_id",
     "postOwner": "post_owner"
   }
 }
