@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
-    "start": "next start -p $PORT",
-    "heroku-postbuild": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "next build -p $PORT",
+    "start": "next start",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.3",
@@ -30,7 +29,7 @@
     "tailwind-scrollbar-hide": "^1.0.3"
   },
   "devDependencies": {
-    "autoprefixer": "^10.3.1",
+    "autoprefixer": "^10.3.2",
     "eslint": "7.32.0",
     "eslint-config-next": "11.0.1",
     "postcss": "^8.3.6",
