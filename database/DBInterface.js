@@ -164,7 +164,7 @@ class DBInterface {
     return await this.usersInfo.updateOne(
       { userId },
       {
-        $set: { fileUrl: generatedAvatarUrl, avatarIdentifier: avatarId },
+        $set: { avatarUrl: generatedAvatarUrl, avatarIdentifier: avatarId },
       }
     );
   }

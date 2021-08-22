@@ -27,7 +27,6 @@ export default function LazyFeed({
     url: bindedUrl,
   });
 
-  console.log(lastId);
   useEffect(() => {
     if (isStopped) return;
 

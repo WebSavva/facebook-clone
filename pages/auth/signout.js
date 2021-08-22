@@ -4,7 +4,7 @@ import WelcomePageWindow from "../../components/WelcomPageWindow/WelcomePageWind
 import Head from "next/head";
 
 export default function SignIn({ providers }) {
-  const facebookProvider = providers.facebook;
+  const facebookProvider = providers.vk;
   const router = useRouter();
 
   const signOutHandler = () => {

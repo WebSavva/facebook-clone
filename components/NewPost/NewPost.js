@@ -47,7 +47,7 @@ export default function NewPost(props) {
     newPostFormData.append("user-email", session.user.email);
 
     pushNewPost({
-      url: "/api/new-post",
+      url: `${window.location.origin}/api/new-post`,
       requestMethod: "POST",
       requestBody: newPostFormData,
       callback: (newPostObject) => {

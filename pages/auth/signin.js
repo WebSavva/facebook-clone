@@ -3,7 +3,7 @@ import WelcomePageWindow from "../../components/WelcomPageWindow/WelcomePageWind
 import Head from "next/head";
 
 export default function SignIn({ providers }) {
-  const facebookProvider = providers.facebook;
+  const facebookProvider = providers.vk;
   const signInHandler = () =>
     signIn(facebookProvider.id, {
       callbackUrl: process.env.NEXTAUTH_URL || "https://localhost:3000",

@@ -3,11 +3,14 @@ import Providers from "next-auth/providers";
 import DBInterface from "./../../../database/DBInterface";
 import hashify from "./../../../utilities/hash-function";
 
+
+
 export default NextAuth({
   providers: [
-    Providers.Facebook({
-      clientId: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    Providers.VK({
+      clientId: process.env.VK_CLIENT_ID,
+      clientSecret: process.env.VK_SECRET,
+      scope: "user_id"
     }),
   ],
   pages: {
@@ -15,17 +18,19 @@ export default NextAuth({
     signOut: "/auth/signout",
   },
   callbacks: {
-    session: async function (session) {
+    session: async function (session, user) {
+      session.user.email = user.sub;
       const db = await DBInterface.getDB();
-      const emailHash = hashify(session.user.email);
+      const userHashId = hashify(session.user.email);
       const avatarId = hashify(session.user.image);
 
       try {
         const currentUser = await db.handleUserEnter({
           userName: session.user.name,
-          userId: emailHash,
+          userId: userHashId,
           avatarId,
           avatarUrl: session.user.image,
+          vkId: user.sub
         });
         session.user.image = currentUser.avatarUrl;
         session.user.userId = currentUser.userId;
