@@ -16,7 +16,7 @@ The given app represents a partial Facebook clone. The [following tutorial](http
 
 ### Features
 * Custom hooks were applied in those cases where the logic could be shared between components, e.g. sending HTTP-requests. To back that up with a real example, "usePostsLoader" hook allows to load posts on demand as the user scrolls down the feed.
-* Users can publish posts with media files(video,music and images) attached to them. Every user allows to upload a file the size of which does not exceed the 20MB limit. In addition to that, the maximal size of the memory allocated for a single user equals to 80MB. 
+* Users can publish posts with media files(video,music and images) attached to them. Every user is allowed to upload a file the size of which does not exceed the 20MB limit. In addition to that, the maximal size of the memory allocated for a single user equals to 80MB. 
 * It is also possible to find out which users are online. Status is updated with a help of Beacon API. 
 * In order to avoid unnecessary HTTP-requests, Context API is used to store all user's fetched posts. 
 * The sidebar on the right, which lists some online users, is updated every 5 minutes. 
