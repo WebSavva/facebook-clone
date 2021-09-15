@@ -75,7 +75,9 @@ export default function NewPost(props) {
     >
       {error && <Modal message={error} closeModal={removeUploadedFile} />}
       <div className="flex gap-0 sm:gap-2">
-        {!isLoading && !enteredPostData.file && <UserImage className='hidden sm:block h-[50px] w-[50px]'/>}
+        {!isLoading && !enteredPostData.file && (
+          <UserImage className="hidden sm:block h-[50px] w-[50px]" />
+        )}
         <div className="flex flex-grow gap-2 flex-wrap">
           <textarea
             ref={textInputRef}

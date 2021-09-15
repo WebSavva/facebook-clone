@@ -6,7 +6,6 @@ import UserItem from "./../OnlineUsersBar/UserItem";
 import Spinner from "../UI/Spinner/Spinner";
 import Banner from "../UI/Banner/Banner";
 
-
 export default function SearchFriendsPage() {
   const [
     {
@@ -25,7 +24,9 @@ export default function SearchFriendsPage() {
     (enteredName, isOnlineFiltered) => {
       setNotFound(false);
       fetchUsersInfo({
-        url: `${window.location.origin}/api/users?entered_name=${enteredName}${isOnlineFiltered ? '&online=true' : ''}`,
+        url: `${window.location.origin}/api/users?entered_name=${enteredName}${
+          isOnlineFiltered ? "&online=true" : ""
+        }`,
         callback: (result) => {
           if (!result.length) setNotFound(true);
           setUsersInfo(result);
@@ -45,7 +46,7 @@ export default function SearchFriendsPage() {
   } else if (notFound) {
     content = <Banner text="Sorry, no users found!" />;
   } else {
-    content = usersInfo.map(({ _id, ...props}) => (
+    content = usersInfo.map(({ _id, ...props }) => (
       <UserItem
         key={_id}
         {...props}
@@ -55,12 +56,12 @@ export default function SearchFriendsPage() {
   }
 
   return (
-      <div className="feed-block main-heightened">
-        <SearchFriendsInput
-          fetchHandler={bindedFetchUsersInfo}
-          onChangeHandler={removeNotFound}
-        />
-        <div className="flex flex-col space-y-4">{content}</div>
-      </div>
+    <div className="feed-block main-heightened">
+      <SearchFriendsInput
+        fetchHandler={bindedFetchUsersInfo}
+        onChangeHandler={removeNotFound}
+      />
+      <div className="flex flex-col space-y-4">{content}</div>
+    </div>
   );
 }

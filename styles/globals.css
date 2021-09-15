@@ -28,7 +28,7 @@
   }
 
   .online-checkbox {
-    @apply select-none ;
+    @apply select-none;
   }
 
   .online-checkbox input {
@@ -99,4 +99,3 @@ body::-webkit-scrollbar {
 .visible {
   opacity: 100%;
 }
-

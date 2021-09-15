@@ -3,7 +3,6 @@ const cloudinary = require("./../database/cloudinary").default;
 const { FileUploadError } = require("./../apiHandlers/custom-errors");
 const serverConfig = require("./server_config.json");
 
-
 class DBInterface {
   static async getDB(dbConnectionUrl) {
     const dbClient = await MongoClient.connect(process.env.DB_LINK);
@@ -71,24 +70,23 @@ class DBInterface {
     });
   }
 
-  async toggleOnlineStatus({
-    userId,
-    online
-  }) {
-    const booleanIsOnline = online == 'true' ? true : false;
-    return !!((await this.usersInfo.updateOne(
-      {
-        userId,
-      },
-      {
-        $set: {
-          isOnline: booleanIsOnline,
-          ...(!booleanIsOnline && {
-            lastSeen: new Date(),
-          }),
+  async toggleOnlineStatus({ userId, online }) {
+    const booleanIsOnline = online == "true" ? true : false;
+    return !!(
+      await this.usersInfo.updateOne(
+        {
+          userId,
         },
-      }
-    )).modifiedCount);
+        {
+          $set: {
+            isOnline: booleanIsOnline,
+            ...(!booleanIsOnline && {
+              lastSeen: new Date(),
+            }),
+          },
+        }
+      )
+    ).modifiedCount;
   }
 
   async getUserData({ userId }) {

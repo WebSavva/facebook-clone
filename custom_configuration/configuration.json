@@ -1,8 +1,8 @@
 {
-    "maxFileSize": 20e6,
-    "allowedExtensions": {
-        "video": ["mp4","webm",  "x-msvideo" ],
-        "audio": [ "mpeg", "mp4", "wav", "aac"],
-        "image": ["png", "jpeg",  "gif", "svg+xml", "webp"]
-    }
+  "maxFileSize": 20e6,
+  "allowedExtensions": {
+    "video": ["mp4", "webm", "x-msvideo"],
+    "audio": ["mpeg", "mp4", "wav", "aac"],
+    "image": ["png", "jpeg", "gif", "svg+xml", "webp"]
+  }
 }

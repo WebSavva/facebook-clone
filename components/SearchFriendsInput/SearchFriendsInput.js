@@ -5,12 +5,11 @@ function SearchFriendsInput({ fetchHandler, isFetching, onChangeHandler }) {
   const inputRef = useRef(null);
   const [isOnlineFiltered, setIsOnlineFiltered] = useState(false);
   const submitHandler = (e) => {
-      e.preventDefault();
-      const enteredName = inputRef.current.value;
-      
+    e.preventDefault();
+    const enteredName = inputRef.current.value;
 
-      fetchHandler( (!enteredName ? '.+' : enteredName), isOnlineFiltered);
-      inputRef.current.value = '';
+    fetchHandler(!enteredName ? ".+" : enteredName, isOnlineFiltered);
+    inputRef.current.value = "";
   };
 
   return (
@@ -25,11 +24,18 @@ function SearchFriendsInput({ fetchHandler, isFetching, onChangeHandler }) {
       <button
         type="submit"
         disabled={isFetching}
-        className={`rounded-tr-md rounded-br-md ${isFetching ?' bg-gray-300 text-gray-500' : 'bg-blue-400 text-white cursor-pointer'} sm:text-sm md:text-base  font semibold py-2 px-3 transition-all md:hover:opacity-75`}
+        className={`rounded-tr-md rounded-br-md ${
+          isFetching
+            ? " bg-gray-300 text-gray-500"
+            : "bg-blue-400 text-white cursor-pointer"
+        } sm:text-sm md:text-base  font semibold py-2 px-3 transition-all md:hover:opacity-75`}
       >
         Search
       </button>
-      <OnlineCheckbox isOn={isOnlineFiltered} toggleCheckbox={() => setIsOnlineFiltered((prev) => !prev)}/>
+      <OnlineCheckbox
+        isOn={isOnlineFiltered}
+        toggleCheckbox={() => setIsOnlineFiltered((prev) => !prev)}
+      />
     </form>
   );
 }

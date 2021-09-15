@@ -61,10 +61,7 @@ function reducer(state, action) {
 }
 
 export default function useContentLoader({ onFetchHandler, url }) {
-  const [postsState, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [postsState, dispatch] = useReducer(reducer, initialState);
 
   const { isLoading, pageEnded, lastId, isDone, error } = postsState;
 
@@ -94,7 +91,6 @@ export default function useContentLoader({ onFetchHandler, url }) {
 
         onFetchHandler(fetchedPosts);
       } catch (error) {
-        // console.log(error.message);
         dispatch({
           type: "ERROR",
           payload: {
@@ -105,8 +101,6 @@ export default function useContentLoader({ onFetchHandler, url }) {
     },
     [startLoadingOnPageEnd, onFetchHandler, url]
   );
-
-  
 
   return {
     isLoading,

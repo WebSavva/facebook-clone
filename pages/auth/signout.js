@@ -2,12 +2,21 @@ import { getProviders, signOut } from "next-auth/client";
 import { useRouter } from "next/router";
 import WelcomePageWindow from "../../components/WelcomPageWindow/WelcomePageWindow";
 import Head from "next/head";
+import { useSession } from "next-auth/client";
 
-export default function SignIn({ providers }) {
+export default function SignOut({ providers }) {
   const facebookProvider = providers.vk;
   const router = useRouter();
-
+  const [
+    {
+      user: { userId: selfId },
+    },
+  ] = useSession();
   const signOutHandler = () => {
+    if (selfId)
+      navigator.sendBeacon(
+        `${window.location.origin}/api/users/status?user_id=${selfId}&online=false`
+      );
     signOut({
       callbackUrl: process.env.NEXTAUTH_URL || "https://localhost:3000",
     });

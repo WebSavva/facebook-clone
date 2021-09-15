@@ -27,6 +27,4 @@ export default function FacebookIcon(props) {
       />
     </svg>
   );
-};
-
-
+}

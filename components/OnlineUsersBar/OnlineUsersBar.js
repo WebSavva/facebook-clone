@@ -76,7 +76,7 @@ function OnlineUsersBar() {
     );
   });
 
-  const loadingTemplate = <Skeleton height="100px" width="100%" rounded/>;
+  const loadingTemplate = <Skeleton height="100px" width="100%" rounded />;
 
   let content;
   if (isMobile) {
@@ -99,12 +99,11 @@ function OnlineUsersBar() {
           <SearchIcon className={"h-5 w-5"} />
         </div>
       </header>
-      {!isFetching &&
-        !usersData.length &&  !fetchingError && (
-          <h4 className="text-gray-400 capitalize text-center font-light text-sm w-3/4 m-auto">
-            No users online currently except you...
-          </h4>
-        )}
+      {!isFetching && !usersData.length && !fetchingError && (
+        <h4 className="text-gray-400 capitalize text-center font-light text-sm w-3/4 m-auto">
+          No users online currently except you...
+        </h4>
+      )}
       {(isFetching || fetchingError) && loadingTemplate}
 
       {!!usersData.length && !isFetching && <>{content}</>}

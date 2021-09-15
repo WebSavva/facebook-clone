@@ -34,15 +34,13 @@ function Auth({ children }) {
   const [session, loading] = useSession();
   const isUser = !!session?.user;
   useEffect(() => {
-    if (loading) return; // Do nothing while loading
-    if (!isUser) signIn(); // If not authenticated, force log in
+    if (loading) return;
+    if (!isUser) signIn();
   }, [isUser, loading]);
 
   if (isUser) {
     return children;
   }
 
-  // Session is being fetched, or no user.
-  // If no user, useEffect() will redirect.
   return <MainPageLoader />;
 }

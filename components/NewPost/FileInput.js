@@ -23,7 +23,9 @@ export default function FileInput({ mediaType, triggerAction, newPostUpdate }) {
     fileInputRef.current.value = null;
     console.log(pickedMediaType, pickedFormat);
     if (pickedFile.size > config.maxFileSize) {
-      errorMessage = `The file size exceeds the limit ${config.maxFileSize / 1e6 }MB!`;
+      errorMessage = `The file size exceeds the limit ${
+        config.maxFileSize / 1e6
+      }MB!`;
     } else if (
       pickedMediaType !== mediaType ||
       !config.allowedExtensions[mediaType].includes(pickedFormat)
@@ -110,5 +112,4 @@ export default function FileInput({ mediaType, triggerAction, newPostUpdate }) {
       />
     </React.Fragment>
   );
-};
-
+}

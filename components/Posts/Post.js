@@ -23,7 +23,11 @@ const Post = ({
       case "image":
         mediaContent = (
           <Lightbox>
-            <MediaImage src={fileUrl} className="max-w-full w-auto h-auto max-h-[300px]" alt="Post Image" />
+            <MediaImage
+              src={fileUrl}
+              className="max-w-full w-auto h-auto max-h-[300px]"
+              alt="Post Image"
+            />
           </Lightbox>
         );
         break;

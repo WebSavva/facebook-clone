@@ -6,9 +6,16 @@ function MainPageLoader() {
   return (
     <div className="w-full h-full min-h-screen flex items-center justify-center bg-gray-100 flex-col">
       <div className="w-[200px] h-[200px] relative animate-pulse">
-        <Image src={fbCircleLogo.src} alt="Facebook logo" layout="fill" priority/>
+        <Image
+          src={fbCircleLogo.src}
+          alt="Facebook logo"
+          layout="fill"
+          priority
+        />
       </div>
-        <h3 className='text-3xl font-light text-gray-500 mt-3 tracking-wider'>Loading...</h3>
+      <h3 className="text-3xl font-light text-gray-500 mt-3 tracking-wider">
+        Loading...
+      </h3>
     </div>
   );
 }

@@ -9,14 +9,14 @@ import { useSession } from "next-auth/client";
 
 export default function UserPage() {
   const router = useRouter();
-  const [{
-    user: {
-      userId: selfId
-    }
-  }] = useSession();
+  const [
+    {
+      user: { userId: selfId },
+    },
+  ] = useSession();
   const { userId } = router.query;
-  if (userId === selfId) router.replace('/');
-  
+  if (userId === selfId) router.replace("/");
+
   const feedRef = useRef(null);
   const [userData, setUserData] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -33,18 +33,19 @@ export default function UserPage() {
       callback: setUserData,
     });
   }, [fetchUserData, userId]);
-  const updatePosts = useCallback((newPosts) => setPosts((prevPosts) => [...prevPosts, ...newPosts]), [setPosts]);
+  const updatePosts = useCallback(
+    (newPosts) => setPosts((prevPosts) => [...prevPosts, ...newPosts]),
+    [setPosts]
+  );
 
   useEffect(() => {
     boundUserFetch();
   }, [boundUserFetch]);
 
   useEffect(() => {
-    
-
     setPosts([]);
-  }, [userId,selfId, router]);
-  
+  }, [userId, selfId, router]);
+
   const bindedRequestedUserUrl = useMemo(
     () =>
       `${
@@ -56,26 +57,26 @@ export default function UserPage() {
   const componentProps = {
     ownerName: userData?.userName,
     ownerAvatar: userData?.avatarUrl,
-    postsData: posts
+    postsData: posts,
   };
 
   return (
-      <div className="feed-block main-heightened" ref={feedRef}>
-        {isFetching && <Spinner />}
-        {userData && (
-          <>
-            <UserCard userLink={window.location.href} {...userData} />
-            <LazyFeed
-              feedRef={feedRef}
-              userName={userData.userName}
-              userAvatar={userData.avatarUrl}
-              bindedUrl={bindedRequestedUserUrl}
-              updatePostsHandler={updatePosts}
-              Component={PostList}
-              componentProps={componentProps}
-            />
-          </>
-        )}
-      </div>
+    <div className="feed-block main-heightened" ref={feedRef}>
+      {isFetching && <Spinner />}
+      {userData && (
+        <>
+          <UserCard userLink={window.location.href} {...userData} />
+          <LazyFeed
+            feedRef={feedRef}
+            userName={userData.userName}
+            userAvatar={userData.avatarUrl}
+            bindedUrl={bindedRequestedUserUrl}
+            updatePostsHandler={updatePosts}
+            Component={PostList}
+            componentProps={componentProps}
+          />
+        </>
+      )}
+    </div>
   );
 }

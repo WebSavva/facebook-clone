@@ -19,7 +19,7 @@ export default function LazyFeed({
     isDone: isAllPostsLoaded,
     lastId,
     fetchData,
-    pageEnded
+    pageEnded,
   } = useContentLoader({
     onFetchHandler: (result) => {
       updatePostsHandler(result);
